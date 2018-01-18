@@ -1,0 +1,44 @@
+#div1 {
+    width: 45px;
+    height: 28px;
+    border-radius: 48px;
+    position: relative;
+}
+
+#div2 {
+    width: 25px;
+    height: 25px;
+    border-radius: 24px;
+    position: absolute;
+    background: white;
+    box-shadow: 0px 2px 4px rgba(0,0,0,0.4);
+}
+
+.open1{
+    background: rgba(0,184,0,0.8);
+}
+
+.open2{
+    top: 1px;
+    right: 1px;
+}
+
+.close1{
+    background: rgba(255,255,255,0.4);
+    border:1px solid rgba(0,0,0,0.15);
+    border-left: transparent;
+}
+
+.close2{
+    left: 0px;
+    top: 0px;
+    border:1px solid rgba(0,0,0,0.1);
+}
+
+.set_data {
+    background: #fff;
+    line-height: 28px;
+    text-align: center;
+    max-height: 500px;
+    overflow-y: auto;
+}

@@ -1,0 +1,184 @@
+{include file="public/header"/}
+<div class="layui-body" style="background: #e2e2e2">
+    <section style="margin: 10px auto;width: 96%;">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3 class="page-header" style="font-size: 20px;"><i class="fa fa-laptop"></i>我的应用/{$app.app_key}</h3>
+                <ol class="breadcrumb">
+                    <li><i class="fa fa-laptop"></i><a href="{:url('admin/index/index')}">我的应用</a></li>
+                    <li>{$app.app_key}</li>
+                </ol>
+            </div>
+        </div>
+
+        <nav class="navbar navbar-default" role="navigation">
+
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="">使用</a></li>
+                    <li><a href="/admin/index/set?app_id={$app.id}">设置</a></li>
+                </ul>
+
+            </div>
+        </nav>
+        <h3 class="page">秘钥</h3>
+        <div class="row" style="margin-bottom: 10px;">
+            <div style="background: #fff;border-radius: 4px;padding: 6px;line-height: 25px;margin-top: 10px;width: 97.5%;margin-left:15px;padding-left:20px;color: #2098ED ">
+                <p>app_key:<span id='appkey'>{$app.app_key}</span></p>
+                <p>app_secret:<span id='appsecret'>{$app.app_secret}</span></p>
+            </div>
+        </div>
+
+        <h3 class="page">使用步骤</h3>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="text" >
+                    获取到秘钥后，需要赋予基本信息，方法如下：
+                </div>
+
+                <textarea style="width: 100%;height: 650px;margin-top: 10px;" id="text1">
+                    <script src='{$domain}/assets/libs/layui/layui.js'></script>
+                    <script src="{$domain}/laychat.js"></script>
+                    <script>
+                         // 注册用户得到appkey
+                         laychat.app_key = '{$app.app_key}';
+                         // 自己的信息
+                         laychat.mine = {
+                             "username": "李四" //我的昵称
+                             ,"id": "99"                //我的ID
+                             ,"status": "online"         //在线状态 online：在线、hide：隐身
+                             ,"sign": "在深邃的编码世界" //我的签名
+                             ,"avatar": "http://api.laychat.net/assets/upload/0.jpg" //我的头像
+                         };
+                         // 好友列表信息
+                         laychat.friendList =[{
+                             "groupname": "前端" //好友分组名
+                             ,"id": 1             //分组ID
+                             ,"list": [{          //分组下的好友列表
+                                 "username": "张三"  //好友昵称
+                                 ,"id": "101"      //好友ID
+                                 ,"avatar": "http://api.laychat.net/assets/upload/1.jpg"
+                                 ,"sign": "这些都是测试数据，实际使用请严格按照该格式返回"
+                                 ,"status": "online" //若值为offline代表离线，online或者不填为在线
+                             }]
+                         }];
+                         // 群组信息
+                         laychat.groupList =[{
+                             "groupname": "前端群" //群组名
+                             ,"id": "11"          //群组ID
+                             ,"avatar": "http://api.laychat.net/assets/upload/2.jpg" //群组头像
+                         }];
+                         // 打开聊天面板
+                         laychat.open();
+                    </script>
+
+                 </textarea>
+
+                <div class="" style="margin-top: 20px;text-align: center;">
+                    <button class="btn btn-success" id="action"> 一键运行 </button>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="text" >
+                    另一端好友赋值方法如下，运行后可互相通话：
+                </div>
+                <textarea style="width: 100%;height: 650px;margin-top: 10px;" id="text2">
+                    <script src='{$domain}/assets/libs/layui/layui.js'></script>
+                    <script src="{$domain}/laychat.js"></script>
+                    <script>
+                        laychat.app_key = '{$app.app_key}';
+                        laychat.mine = {
+                            "username": "张三"           //我的昵称
+                            ,"id": "101"                //我的ID
+                            ,"status": "online"         //在线状态 online：在线、hide：隐身
+                            ,"sign": "这些都是测试数据，实际使用请严格按照该格式返回" //我的签名
+                            ,"avatar": "http://api.laychat.net/assets/upload/1.jpg" //我的头像
+                        };
+
+                        // 好友列表信息
+                        laychat.friendList =[{
+                            "groupname": "前端" //好友分组名
+                            ,"id": 1             //分组ID
+                            ,"list": [{          //分组下的好友列表
+                                "username": "李四"  //好友昵称
+                                ,"id": "99"      //好友ID
+                                ,"avatar": "http://api.laychat.net/assets/upload/0.jpg"    //好友头像
+                                ,"sign": "在深邃的编码世界"  //好友签名
+                                ,"status": "online"
+                            }]
+                        }];
+                        // 群组信息
+                        laychat.groupList =[{
+                            "groupname": "前端群" //群组名
+                            ,"id": "11"          //群组ID
+                            ,"avatar": "http://api.laychat.net/assets/upload/2.jpg" //群组头像
+                        }];
+
+                        laychat.open();
+                    </script>
+
+                </textarea>
+                <div class="" style="margin-top: 20px;text-align: center;">
+                    <button class="btn btn-success" id="action2"> 一键运行 </button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>
+
+<script type="text/javascript">
+    $("#action").on("click",function(){
+        var str =$("#text1").val();
+
+        $.ajax({
+            url:"{:url('admin/index/test')}",
+            type:"post",
+            data:{data:str},
+            success:function(res){
+                if(res){
+                    layer.open({
+                        type: 2,
+                        title: 'demo',
+                        shadeClose: true,
+                        shade: false,
+                        maxmin: true, //开启最大化最小化按钮
+                        area: ['893px', '600px'],
+                        content: '{$domain}/admin/index/test'
+                    });
+                }
+            }
+        })
+    });
+
+    $("#action2").on("click",function(){
+        var str =$("#text2").val();
+        $.ajax({
+            url:"{:url('admin/index/test')}",
+            type:"post",
+            data:{data:str},
+            success:function(res){
+                if(res){
+                    layer.open({
+                        type: 2,
+                        title: 'demo2',
+                        shadeClose: true,
+                        shade: false,
+                        maxmin: true, //开启最大化最小化按钮
+                        area: ['893px', '600px'],
+                        content: '{$domain}/admin/index/test'
+                    });
+                }
+            }
+        })
+    });
+
+    var change =function(id){
+        window.location.href ="/admin/index/product?app_id="+id;
+
+    }
+</script>
+
+{include file="public/footer"/}

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>后台登录</title>
+    {load href="__libs__/jquery/jquery.min.js"/}
+    {load href="__libs__/bootstrap/css/bootstrap.min.css"/}
+    {load href="__libs__/bootstrap/js/bootstrap.min.js"/}
+    
+    {load href="__style__/admin/login.css"}
+    {load href="__libs__/layer/layer.js"/}
+
+    <link rel="shortcut icon" href="/laychat_favicon.ico"/>
+</head>
+
+<body class="signin" id="login_btn">
+<div class="signinpanel" style="width: 1000px;margin: 5% auto;">
+    <div class="row">
+
+        <div class="col-sm-4" style="position:relative;left:34%;">
+            <section style="margin-top:70px;background: #eee;">
+                <p style="font-size: 15px;font-weight: bold;">登录到LayChat后台</p>
+                <input type="text" class="form-control uname" placeholder="用户名" id="user_name" />
+                <input type="password" class="form-control pword m-b" placeholder="密码" id="password" />
+                <div style="margin-top: 10px;margin-bottom: 60px;">
+                    <input type="text" class="form-control" placeholder="验证码" style="color:black;width:120px;float:left;margin:0px 0px;" name="code" id="code"/>
+                    <img src="{:url('captcha')}" onclick="javascript:this.src='{:url('captcha')}?tm='+Math.random();" style="float:right;cursor: pointer"/>
+
+                </div>
+
+                <button class="btn btn-success btn-block"  onclick="entry()" >登录</button>
+                <p class="form-botoom">没有账号?<a href="{:url('regist')}">请注册</a></p>
+            </section>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var entry =function(){
+        var user =$("#user_name").val();
+        var pass =$("#password").val();
+        var code =$("#code").val();
+        $.ajax({
+            url:"{:url('check')}",
+            type:'post',
+            data:{username:user,password:pass,code:code},
+            success:function(res){
+                var sdata=$.parseJSON(res);
+                if(sdata.code == 1){
+                    window.location.href =sdata.url;
+                }else{
+                    layer.msg(sdata.data,{icon:2});
+                }
+            }
+        });
+    }
+
+    document.getElementById("login_btn").onkeydown=function(){
+
+        if (window.event.keyCode == 13) {
+            entry();
+        }
+    }
+
+</script>
+</body>
+</html>

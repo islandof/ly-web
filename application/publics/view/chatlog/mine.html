@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>聊天历史记录</title>
+    {load href="__libs__/layui/css/layui.css"/}
+    {load href="__libs__/layui/layui.js"/}
+    {load href="__libs__/jquery/jquery.min.js"/}
+    <style type="text/css">
+    	
+			.history-page {
+			    text-align: center;
+			    line-height: 50px;
+			    color: #AAAAAA;
+			}
+
+			.history-page a {
+			    color:#01AAED;
+			}
+    </style>
+
+</head>
+<body>
+
+ 
+<script>
+
+  function getLocalTime(ns) {     
+    var date = new Date(ns);
+    var seperator1 = "-";
+    var seperator2 = ":";
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+            + " " + date.getHours() + seperator2 + date.getMinutes()
+            + seperator2 + date.getSeconds();
+    return currentdate;
+
+} 
+
+    layui.use(['layim'], function(){
+        var layim = layui.layim; 
+        var data={$chatdata};
+     
+        var html = '';
+        for(var key in data){
+            var item = JSON.parse(data[key]);
+            var sendtime = getLocalTime(item.timestamp);
+
+
+            html += '<li><div class="layim-chat-user"><img src="'+item.avatar+'"><cite>'+item.username+'<i>'+sendtime+'</i></cite></div><div class="layim-chat-text">'+layim.content(item.content)+'</div></li>';
+        }
+        $(".layim-chat-main ul").append(html);
+    });
+</script>
+
+
+<p id='test'></p>
+<div class="layim-chat layim-chat-friend">
+    <div class="layim-chat-main" style="width:70%; height:100%">
+        <ul>
+
+           
+        </ul>
+    </div>
+      {$page}
+</div>
+
+
+<style>
+        body{overflow-x: hidden}
+        .layui-layer {
+            text-align: left;
+        }
+        .layim-chat {
+            display: block;
+        }
+</style>
+</body>
+
+

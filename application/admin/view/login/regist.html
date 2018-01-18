@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>注册</title>
+    {load href="__libs__/jquery/jquery.min.js"/}
+    {load href="__libs__/bootstrap/css/bootstrap.min.css"/}
+    {load href="__libs__/bootstrap/js/bootstrap.min.js"/}
+    {load href="__libs__/layer/layer.js"/}
+    {load href="__style__/admin/login.css"}
+
+
+    <link rel="shortcut icon" href="/laychat_favicon.ico"/>
+</head>
+
+<body class="signin" id="regist_btn">
+<div class="signinpanel" style="width: 1000px;margin: 10% auto;">
+    <div class="row">
+
+        <div class="col-sm-4" style="position:relative;left:34%;">
+            <section style="background: #eee;">
+                <p>LayChat用户注册</p>
+                <input type="text" class="form-control uname" placeholder="用户名" id="user_name" />
+                <input type="password" class="form-control pword m-b" placeholder="密码" id="password" />
+                <input type="password"  class="form-control pword m-b" placeholder="重复密码" id="password2" />
+                <div style="margin-top: 10px;margin-bottom: 60px;">
+                    <input type="text" class="form-control" placeholder="验证码" style="color:black;width:120px;float:left;margin:0px 0px;" name="code" id="code"/>
+                    <img src="{:url('recaptcha')}" onclick="javascript:this.src='{:url('recaptcha')}?tm='+Math.random();" style="float:right;cursor: pointer"/>
+                </div>
+                <input class="btn btn-success btn-block"  onclick="enroll()" value="注册"/>
+                <p class="form-botoom"><a href="{:url('index')}">返回登录</a></p>
+            </section>
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+
+    var enroll =function(){
+        var user = $('#user_name').val();
+        var pass = $('#password').val();
+        var pass2 = $('#password2').val();
+        var code = $("#code").val();
+        if(user == "" || pass== "" || pass2== "" || code ==""){
+            $('#err_msg').show().html("<span style='color:red'>数据不能为空</span>");
+            return;
+        }
+        $.ajax({
+            url:"{:url('sign')}",
+            type:'post',
+            data:{username:user,password:pass,password2:pass2,code:code},
+            success:function(res){
+                var sdata =$.parseJSON(res);
+              
+                if(sdata.code!=1){
+                    layer.msg(sdata.msg);
+                    return;
+                }else{
+
+                    layer.open({
+                        type:1,
+                        title:'信息',
+                        area:['260px','160px'],
+                        content:'<center style="margin-top:20px;font-size:16px;">'+sdata.msg+'</center>',
+                        btn:['登陆'],
+                        yes:function(){
+                            window.location.href="{:url('admin/login/index')}";
+                        },
+                    });
+
+                }
+            }
+        });
+    }
+
+    document.getElementById("regist_btn").onkeydown=function(){
+
+        if ( window.event.keyCode == 13) {
+            enroll();
+        }
+    }
+
+
+</script>
+</body>
+</html>

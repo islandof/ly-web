@@ -1,0 +1,397 @@
+{include file="public/header"/}
+<div class="layui-body" style="background: #e2e2e2">
+    <section class="" style="margin: 10px auto;width: 96%;">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3 class="page-header" style="font-size: 20px;"><i class="fa fa-laptop"></i>我的应用/{$app.app_key}</h3>
+                <ol class="breadcrumb">
+                    <li><i class="fa fa-laptop"></i><a href="{:url('admin/index/index')}">我的应用</a></li>
+                    <li>{$app.app_key}</li>
+                </ol>
+            </div>
+        </div>
+
+        <nav class="navbar navbar-default" role="navigation">
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/admin/index/demo?app_id={$app.id}">使用</a></li>
+                    <li class="active"><a href="">设置</a></li>
+                </ul>
+
+
+            </div>
+        </nav>
+
+
+
+        <div >
+            <h2 class="page" style="font-size: 20px;text-transform: uppercase;margin-top: 10px;">设置敏感词过滤<button class="btn btn-primary" style="float: right" onclick="addwords()">添加自定义敏感词</button></h2>
+
+            <div class="words">
+
+
+            </div>
+            <div class="row">
+                <div  class="col-md-10" id="" style="margin-top: 30px;">
+                    <div class="text" >
+                        已经添加的敏感词如下：
+                    </div>
+                    <div class="set_data" >
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <td>敏感词</td>
+                                <td>操作</td>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            {if $wdata != ''}
+
+                            {foreach $wdata as $v}
+                            <tr>
+                                <td>{$v.data}</td>
+                                <td><button class='btn btn-danger' onclick='deletew({$v.id})'>删除</button></td>
+                            </tr>
+                            {/foreach}
+
+                            {else}
+                            <tr>
+                                <td colspan="2">暂时没有数据</td>
+                            </tr>
+                            {/if}
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <h2 class="page" style="font-size: 20px;text-transform: uppercase;margin-top: 10px;margin-bottom: 10px;">设置被禁的人员id<span><button class="btn btn-primary" style="float: right" onclick="addgag()">添加被禁人员</button></h2>
+        <div class="row">
+            <div class="col-md-10">
+                <div class="text">
+                    已经添加的被禁人员和该人员被禁的群信息如下：
+                </div>
+                <div class="set_data" style="">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <td>被禁人员id</td>
+                            <td>被禁的群id</td>
+                            <td>操作</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {if $ldata != ''}
+                        {foreach $ldata as $v}
+                        <tr>
+                            <td>{$v.userid}</td>
+                            <td>{$v.gid}</td>
+                            <td><button class='btn btn-danger' onclick='deletel({$v.id})'>删除</button></td>
+                        </tr>
+                        {/foreach}
+
+                        {else}
+                        <tr>
+                            <td colspan="3">暂时没有数据</td>
+                        </tr>
+                        {/if}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+     
+        <h2 class="page" style="font-size: 20px;text-transform: uppercase;margin-top: 10px;margin-bottom: 10px;">设置白名单人员id<span><button class="btn btn-primary" style="float: right" onclick="addb()">添加白名单人员</button></h2>
+        <div class="row">
+            <div class="col-md-10">
+                <div class="text">
+                    已经添加的白名单人员信息如下：
+                </div>
+                <div class="set_data" style="">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <td>白名单人员id</td>
+                            <td>操作</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {if $bdata != ''}
+                        {foreach $bdata as $v}
+                        <tr>
+                            <td>{$v.userid}</td>
+                            <td><button class='btn btn-danger' onclick='deleteb({$v.id})'>删除</button></td>
+                        </tr>
+                        {/foreach}
+
+                        {else}
+                        <tr>
+                            <td colspan="3">暂时没有数据</td>
+                        </tr>
+                        {/if}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+
+        <h2 class="page" style="font-size: 20px;text-transform: uppercase;margin-top: 10px;">设置app使用状态:</h2>
+         
+        <div class="row" style="margin-top: 10px;">
+
+
+            <div class="col-md-6" style="margin-top: 10px;line-height: 30px;">
+                {if $app.state == 'forbidden_private_chat' || $app.state == 'forbidden_all_chat'}
+                <button class="btn btn-success" onclick="change('open_private')">开启私聊</button>
+                {else}
+                  <button class="btn btn-danger" onclick="change('close_private')">禁止私聊</button>
+                {/if}
+            
+            </div>
+
+            <div class="col-md-6" style="margin-top: 10px;line-height: 30px;">
+                {if $app.state == 'forbidden_group_chat' || $app.state == 'forbidden_all_chat'}
+                <button class="btn btn-success" onclick="change('open_group')">开启群聊</button>
+                {else}
+                  <button class="btn btn-danger" onclick="change('close_group')">禁止群聊</button>
+                {/if}
+              
+            </div>
+        </div> 
+
+
+    </section>
+</div>
+
+<script type="text/javascript">
+
+    var appid ={$appid};
+
+    var change =function(id){
+        window.location.href ="/admin/index/product?app_id="+id;
+    }
+
+    var addwords=function(){
+
+        var str = '';
+        str+='<div class="form-group " style="margin-top: 20px;">';
+        str+='<label for="cname" class="control-label col-lg-4" style="font-size: 19px;color: #706F6F;font-weight: bold;">填写敏感词</label>';
+        str+='<div class="col-lg-8">';
+        str+=' <input class="form-control" id="word" name="words" maxlength="5" type="text" /></div></div>';
+
+        layer.open({
+            title: '添加过滤敏感词',
+            type: 1,
+            area: ['400px', '180px'],
+            content: str,
+            btn: ['提交', '关闭'],
+            yes: function () {
+                $.ajax({
+                        url: "{:url('admin/set/addwords')}",
+                        type: "post",
+                        data: {data: $("#word").val(),app_id:{$app.id}},
+                    success: function (res) {
+                    if (res) {
+                        layer.msg(res, {icon: 1,time:2000,end:function () {
+                            location.reload();
+                        }});
+                    }
+                }
+            });
+            }
+        });
+    }
+
+    var addgag =function(){
+        var str ="";
+        str+='<div class="form-group " style="margin-top: 10px;">';
+        str+='<label for="cname" class="control-label col-lg-4" style="font-size: 19px;color: #706F6F;font-weight: bold;">被禁人员id</label>';
+        str+='<div class="col-lg-8">';
+        str+=' <input class="form-control" id="userid" type="text" required /></div></div>';
+        str+='<div class="form-group " style="margin-top: 60px;">';
+        str+='<label for="cname" class="control-label col-lg-4" style="font-size: 19px;color: #706F6F;font-weight: bold;">被禁群的id</label>';
+        str+='<div class="col-lg-8">';
+        str+=' <input class="form-control" id="gid" type="text" required /></div></div>';
+        str+='<p style="color:red;margin-left:20px;">如果群id不填，则该被禁用户只能接受消息，不能发消息<p>';
+
+
+        layer.open({
+            title: '被禁的人员id',
+            type: 1,
+            area: ['400px', '230px'],
+            content: str,
+            btn: ['提交', '关闭'],
+            yes: function () {
+                $.ajax({
+                        url: "{:url('admin/set/addgag')}",
+                        type: "post",
+                        data: {userid:$("#userid").val(),gid:$("#gid").val(),app_id:{$app.id}},
+                    success: function (res) {
+                    if (res) {
+                        layer.msg(res, {icon: 1,time:2000,end:function () {
+                            location.reload();
+                        }});
+
+                    }
+
+                }
+            });
+            }
+        });
+
+    }
+
+    var deletel =function(id){
+
+        $.ajax({
+            url:'{:url("admin/set/deletelist")}',
+            type:"post",
+            data:{id:id},
+            success:function(res){
+                if (res) {
+                    layer.msg(res, {icon: 1,time:2000,end:function () {
+                        location.reload();
+                    }});
+
+                }
+            }
+        });
+
+    }
+
+    var deletew =function(id){
+
+        $.ajax({
+            url:'{:url("admin/set/deletewords")}',
+            type:"post",
+            data:{id:id},
+            success:function(res){
+                if (res) {
+                    layer.msg(res, {icon: 1,time:2000,end:function () {
+                        location.reload();
+                    }});
+
+                }
+            }
+        });
+
+    }
+
+
+     var deleteb =function(id){
+
+        $.ajax({
+            url:'{:url("admin/set/deletewhite")}',
+            type:"post",
+            data:{id:id},
+            success:function(res){
+                if (res) {
+                    layer.msg(res, {icon: 1,time:2000,end:function () {
+                        location.reload();
+                    }});
+
+                }
+            }
+        });
+
+    }
+
+    var limit =function(){
+
+        var ml =$("#mlimit").val();
+        var dl =$("#dlimit").val();
+
+        var reg = /^[0-9]*$/;
+        var re  = ml.match(reg);
+        var resl = dl.match(reg);
+        if(re && resl){
+            $.ajax({
+                    url:"{:url('admin/set/limit')}",
+                    type:"post",
+                    data:{dlimit:dl,mlimit:ml,appid:{$app.id}},
+                success:function(res){
+
+                if(res){
+
+                    layer.msg(res, {icon: 1,time:2000,end:function () {
+                        location.reload();
+                    }});
+                }
+            }
+        })
+        }else{
+            layer.msg("请填写数字！",{icon:2});
+        }
+
+
+    }
+
+    var addb =function(){
+        var str ="";
+        str+='<div class="form-group " style="margin-top: 10px;">';
+        str+='<label for="cname" class="control-label col-lg-5" style="font-size: 19px;color: #706F6F;font-weight: bold;">填写白名单id</label>';
+        str+='<div class="col-lg-7">';
+        str+=' <input class="form-control" id="userid" type="text" required /></div></div>';
+        str+='<p style="color:red;margin-left:20px;"><p>';
+
+
+        layer.open({
+            title: '添加白名单人员id',
+            type: 1,
+            area: ['400px', '230px'],
+            content: str,
+            btn: ['提交', '关闭'],
+            yes: function () {
+                $.ajax({
+                        url: "{:url('admin/set/addwhite')}",
+                        type: "post",
+                        data: {userid:$("#userid").val(),app_id:{$app.id}},
+                        success: function (res) {
+                        if (res) {
+                            layer.msg(res, {icon: 1,time:2000,end:function () {
+                                location.reload();
+                            }});
+
+                        }
+                }
+            });
+            }
+        });
+
+    }
+
+
+    var change =function(falg){
+
+         $.ajax({
+                    url:"{:url('admin/set/change')}",
+                    type:'post',
+                    data:{debug:falg,app_id:{$app.id}},
+                success:function(res){
+                if (res) {
+                    layer.msg(res, {icon: 1,time:2000,end:function () {
+                        location.reload();
+                    }});
+                }
+            }
+         });
+    }
+
+
+</script>
+
+{include file="public/footer"/}

@@ -1,0 +1,12 @@
+ body .demo-class .layui-layer-btn a {
+    background: #1e9fff;
+    border-color: #E9E7E7;
+    color: rgba(255,255,255,.9);
+  }
+
+
+  body .demo-class .layui-layer-ico16, .layui-layer-loading .layui-layer-loading2 {
+ 
+    background: url(./layer/default/loading-3.gif) no-repeat;
+    background-size: 100%;
+ }
