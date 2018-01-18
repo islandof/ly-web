@@ -1,2 +1,3 @@
 /vendor
 .idea
+/application/admin/controller/GitUpdate.php
