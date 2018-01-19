@@ -2,3 +2,5 @@
 /runtime
 .idea
 /application/admin/controller/GitUpdate.php
+/config/database.php
+/public/index.php
