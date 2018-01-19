@@ -1,5 +1,5 @@
 var laychat={
-    appName : 'LayChat',
+    appName : 'Chatroom',
     host:'http://www.wechat.rr',
     sendMessageUrl :this.host+'/publics/sendmessage',
     uploadImageUrl :this.host+'/publics/upload_image',

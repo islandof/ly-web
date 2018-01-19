@@ -15,7 +15,7 @@ if(typeof $ != 'function') {
 
 layui.link('http://localhost:88/assets/libs/layui/css/modules/demo.css');
 var laychat = {
-    appName: 'LayChat',
+    appName: 'ChatRoom',
     websocketAddress: 'ws://localhost:9090',
     membersUrl: 'http://localhost:88/publics/members',
     sendMessageUrl: 'http://localhost:88/publics/sendmessage',

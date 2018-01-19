@@ -750,10 +750,6 @@ layui.define(["layer", "laytpl", "upload"], function(i) {
 				})
 			},
 			about: function() {
-				t.alert("版本： " + a + '<br>版权所有：<a href="http://layim.layui.com" target="_blank">layim.layui.com</a>', {
-					title: "关于 LayIM",
-					shade: !1
-				})
 			},
 			setSkin: function(i) {
 				var a = i.attr("src"),
