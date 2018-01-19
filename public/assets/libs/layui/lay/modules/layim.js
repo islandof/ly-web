@@ -1,7 +1,7 @@
 /** layui-v2.1.7 MIT License By http://www.layui.com */
 ;
 layui.define(["layer", "laytpl", "upload"], function(i) {
-	var a = "3.7.3 Pro",
+	var a = "3.7.3",
 		e = layui.$,
 		t = layui.layer,
 		n = layui.laytpl,

@@ -52,31 +52,71 @@ class Set extends Controller
         return json_encode($arr);
     }
 
-    public function uploadimg(){
+    public function uploadimg()
+    {
 
-         $http_type = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) ? 'https://' : 'http://';
-       
-         $image_base = trim($_POST['imageContent']);
-         $img = str_replace('data:image/png;base64','',$image_base); 
-         $img = str_replace('','+',$img);
-         $data_img = base64_decode($img);
+        $http_type = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) ? 'https://' : 'http://';
 
-         $url =ROOT.'/assets/upload/images/'.time().'.jpg';
-         $res = file_put_contents($url,$data_img);
-        
-        if($res){
+        $image_base = trim($_POST['imageContent']);
+        $img = str_replace('data:image/png;base64', '', $image_base);
+        $img = str_replace('', '+', $img);
+        $data_img = base64_decode($img);
+
+        $url = ROOT . '/assets/upload/images/' . time() . '.jpg';
+        $res = file_put_contents($url, $data_img);
+
+        if ($res) {
             $data = [
-            "code" => 0,
-            "msg" => '',
-            "data" => [
-                "src" =>$http_type.$_SERVER['HTTP_HOST']."/assets/upload/images/".time().'.jpg'
+                "code" => 0,
+                "msg" => '',
+                "data" => [
+                    "src" => $http_type . $_SERVER['HTTP_HOST'] . "/assets/upload/images/" . time() . '.jpg'
                 ]
             ];
 
-         return  json_encode($data);
+            return json_encode($data);
         }
-        
-       }
+
+    }
+
+    /**
+     * .添加被禁人
+     * [addgag description]
+     * @return [type] [description]
+     */
+    public function addgag(){
+        $post =$_POST;
+        $wlist =User::table('white_list')->where('userid',$post['userid'])->find();
+
+        if($wlist){
+            return '该成员已被设为白名单，不能执行该操作！';
+        }
+
+
+        $data =User::table('gaglist')->insert($post);
+
+        if($data){
+            return '添加成功';
+        }else{
+            return '添加失败';
+        }
+
+    }
+
+    /**
+     * .开放被禁人
+     * [deletelist description]
+     * @return [type] [description]
+     */
+    public function deletelist(){
+        $post=$_POST;
+        $data =User::table('gaglist')->where('userid',$post["userid"])->delete();
+        if($data){
+            return '删除成功！';
+        }else{
+            return '删除失败！';
+        }
+    }
 
 }
 
