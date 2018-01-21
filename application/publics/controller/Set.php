@@ -80,6 +80,50 @@ class Set extends Controller
     }
 
     /**
+     * .添加敏感词
+     * [addwords description]
+     * @return [type] [description]
+     */
+    public function addwords(){
+        $post =$_POST;
+        $data =User::table('gagwords')->insert($post);
+
+        if($data){
+            return '添加成功！';
+        }else{
+            return '添加失败！';
+        }
+
+    }
+
+    /**
+     * .删除敏感词
+     * [deletewords description]
+     * @return [type] [description]
+     */
+    public function deletewords(){
+        $post=$_POST;
+        $data =User::table('gagwords')->where('id',$post["id"])->delete();
+        if($data){
+            return '删除成功！';
+        }else{
+            return '删除失败！';
+        }
+    }
+
+
+
+    public function deletewhite(){
+        $post=$_POST;
+        $data =User::table('white_list')->where('id',$post["id"])->delete();
+        if($data){
+            return '删除成功！';
+        }else{
+            return '删除失败！';
+        }
+    }
+
+    /**
      * .添加被禁人
      * [addgag description]
      * @return [type] [description]
@@ -96,6 +140,7 @@ class Set extends Controller
         $data =User::table('gaglist')->insert($post);
 
         if($data){
+            User::table('message')->where('from',$post["userid"])->delete();
             return '添加成功';
         }else{
             return '添加失败';
