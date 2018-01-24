@@ -84,13 +84,14 @@ class Set extends Controller
      * [addwords description]
      * @return [type] [description]
      */
-    public function addwords(){
-        $post =$_POST;
-        $data =User::table('gagwords')->insert($post);
+    public function addwords()
+    {
+        $post = $_POST;
+        $data = User::table('gagwords')->insert($post);
 
-        if($data){
+        if ($data) {
             return '添加成功！';
-        }else{
+        } else {
             return '添加失败！';
         }
 
@@ -101,24 +102,25 @@ class Set extends Controller
      * [deletewords description]
      * @return [type] [description]
      */
-    public function deletewords(){
-        $post=$_POST;
-        $data =User::table('gagwords')->where('id',$post["id"])->delete();
-        if($data){
+    public function deletewords()
+    {
+        $post = $_POST;
+        $data = User::table('gagwords')->where('id', $post["id"])->delete();
+        if ($data) {
             return '删除成功！';
-        }else{
+        } else {
             return '删除失败！';
         }
     }
 
 
-
-    public function deletewhite(){
-        $post=$_POST;
-        $data =User::table('white_list')->where('id',$post["id"])->delete();
-        if($data){
+    public function deletewhite()
+    {
+        $post = $_POST;
+        $data = User::table('white_list')->where('id', $post["id"])->delete();
+        if ($data) {
             return '删除成功！';
-        }else{
+        } else {
             return '删除失败！';
         }
     }
@@ -128,21 +130,22 @@ class Set extends Controller
      * [addgag description]
      * @return [type] [description]
      */
-    public function addgag(){
-        $post =$_POST;
-        $wlist =User::table('white_list')->where('userid',$post['userid'])->find();
+    public function addgag()
+    {
+        $post = $_POST;
+        $wlist = User::table('white_list')->where('userid', $post['userid'])->find();
 
-        if($wlist){
+        if ($wlist) {
             return '该成员已被设为白名单，不能执行该操作！';
         }
 
 
-        $data =User::table('gaglist')->insert($post);
+        $data = User::table('gaglist')->insert($post);
 
-        if($data){
-            User::table('message')->where('from',$post["userid"])->delete();
+        if ($data) {
+            User::table('message')->where('from', $post["userid"])->delete();
             return '添加成功';
-        }else{
+        } else {
             return '添加失败';
         }
 
@@ -153,14 +156,41 @@ class Set extends Controller
      * [deletelist description]
      * @return [type] [description]
      */
-    public function deletelist(){
-        $post=$_POST;
-        $data =User::table('gaglist')->where('userid',$post["userid"])->delete();
-        if($data){
+    public function deletelist()
+    {
+        $post = $_POST;
+        $data = User::table('gaglist')->where('userid', $post["userid"])->delete();
+        if ($data) {
             return '删除成功！';
-        }else{
+        } else {
             return '删除失败！';
         }
+    }
+
+    public function getGroupMessage()
+    {
+        $post = $_POST;
+        if (isset($post["username"])) {
+            $data = User::table('message')->where("to", $post["groupid"])->where("username", $post["username"])->field("mid,data")->order('mid', 'desc')->limit(50)->select();
+        } else {
+            $data = User::table('message')->where("to", $post["groupid"])->field("mid,data")->order('mid', 'desc')->limit(50)->select();
+        }
+
+        $result = json_encode($data);
+        return $result;
+
+    }
+
+    public function deleteMessage()
+    {
+        $post = $_POST;
+        $data = User::table('message')->where('mid', $post["mid"])->delete();
+        if ($data) {
+            return '删除成功！';
+        } else {
+            return '删除失败！';
+        }
+
     }
 
 }
