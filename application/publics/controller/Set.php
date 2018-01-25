@@ -151,6 +151,27 @@ class Set extends Controller
 
     }
 
+    public function addgaggroup()
+    {
+        $post = $_POST;
+//        $wlist = User::table('white_list')->where('userid', $post['userid'])->find();
+//
+//        if ($wlist) {
+//            return '该成员已被设为白名单，不能执行该操作！';
+//        }
+
+
+        $data = User::table('gaglist')->insert($post);
+
+        if ($data) {
+//            User::table('message')->where('from', $post["userid"])->delete();
+            return '添加成功';
+        } else {
+            return '添加失败';
+        }
+
+    }
+
     /**
      * .开放被禁人
      * [deletelist description]
@@ -160,6 +181,17 @@ class Set extends Controller
     {
         $post = $_POST;
         $data = User::table('gaglist')->where('userid', $post["userid"])->delete();
+        if ($data) {
+            return '删除成功！';
+        } else {
+            return '删除失败！';
+        }
+    }
+
+    public function deletelistgroup()
+    {
+        $post = $_POST;
+        $data = User::table('gaglist')->where(['userid' => $post["userid"], 'gid' => $post['gid']])->delete();
         if ($data) {
             return '删除成功！';
         } else {
