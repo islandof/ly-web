@@ -47,7 +47,7 @@ Class Offlinemsg extends Controller
             }
 
 
-            $data =User::table('message')->where(['to'=>$mine,'type'=>'friend','app_key'=>$app_key])->where('timestamp','>',$logtime)->order('mid desc')->limit(20)->select();
+            $data =User::table('message')->where(['to'=>$mine,'type'=>'friend','app_key'=>$app_key])->where('timestamp','>',$logtime)->order('mid desc')->limit(50)->select();
 
             if ($data) {
                 $result = array_reverse($data);
@@ -70,7 +70,7 @@ Class Offlinemsg extends Controller
                     $gid[] = $v['id'];
                 }
 
-                $gdata =User::table('message')->where('to','in',$gid)->where(['type'=>'group','app_key'=>$app_key])->where('timestamp','>',$logtime)->order('mid desc')->limit(20)->select();
+                $gdata =User::table('message')->where('to','in',$gid)->where(['type'=>'group','app_key'=>$app_key])->where('timestamp','>',$logtime)->order('mid desc')->limit(50)->select();
 
                 if($gdata){
                      $result = array_reverse($gdata);
