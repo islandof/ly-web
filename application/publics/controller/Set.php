@@ -62,7 +62,9 @@ class Set extends Controller
         $img = str_replace('', '+', $img);
         $data_img = base64_decode($img);
 
-        $url = ROOT . '/assets/upload/images/' . time() . '.jpg';
+        $imgname = time().rand(0,1000);
+
+        $url = ROOT . '/assets/upload/images/' . $imgname . '.jpg';
         $res = file_put_contents($url, $data_img);
 
         if ($res) {
@@ -70,7 +72,7 @@ class Set extends Controller
                 "code" => 0,
                 "msg" => '',
                 "data" => [
-                    "src" => $http_type . $_SERVER['HTTP_HOST'] . "/assets/upload/images/" . time() . '.jpg'
+                    "src" => $http_type . $_SERVER['HTTP_HOST'] . "/assets/upload/images/" . $imgname . '.jpg'
                 ]
             ];
 
