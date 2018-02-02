@@ -618,6 +618,7 @@ layui.define(["layer", "laytpl", "upload"], function(i) {
 				var n = e.find("li").eq(0);
 				e.prev().hasClass("layim-chat-system") || e.before('<div class="layim-chat-system"><span layim-event="chatLog">查看更多记录</span></div>'), t > d && n.remove()
 			}
+			//不自动滚动
 			// a.scrollTop(a[0].scrollHeight + 1e3), a.find("ul li:last").find("img").load(function() {
 			// 	a.scrollTop(a[0].scrollHeight + 1e3)
 			// })
