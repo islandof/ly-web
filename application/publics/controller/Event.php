@@ -13,9 +13,10 @@ Class Event extends Controller
     public function index()
     {
         $app_key = $_SERVER['HTTP_X_WOKER_KEY'];
-        $app = User::table("app")->where("app_key", $app_key)->find();
+//        $app = User::table("app")->where("app_key", $app_key)->find();
+        $app = "b054014693241bcd9c20";
 
-        if ($app) {
+        if ($app_key == $app) {
             $app_secret = $app["app_secret"];
 
             $option = array('host' => Api_Host, "port" => Api_port);
