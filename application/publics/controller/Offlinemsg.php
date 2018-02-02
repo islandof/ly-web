@@ -20,15 +20,16 @@ Class Offlinemsg extends Controller
 
         $app_key = $post["app_key"];
 
-        $app = User::table("app")->where("app_key", $app_key)->find();
+//        $app = User::table("app")->where("app_key", $app_key)->find();
+        $app = "b054014693241bcd9c20";
 
-        if ($app) {
+        if ($app_key == $app) {
 
             // 自己的id,群id
             $mine = $post["id"];
             $user = User::table('user')->where('uid', $mine)->find();
 
-            $arr=[];
+            $arr = [];
             $chatdata = [];
 
             if ($user) {
@@ -47,44 +48,44 @@ Class Offlinemsg extends Controller
             }
 
 
-            $data =User::table('message')->where(['to'=>$mine,'type'=>'friend','app_key'=>$app_key])->where('timestamp','>',$logtime)->order('mid desc')->limit(100)->select();
+            $data = User::table('message')->where(['to' => $mine, 'type' => 'friend', 'app_key' => $app_key])->where('timestamp', '>', $logtime)->order('mid desc')->limit(100)->select();
 
             if ($data) {
                 $result = array_reverse($data);
-                
+
                 foreach ($result as $value) {
                     $chatdata[] = $value['data'];
                 }
-                
+
             }
 
-            if(isset($post['group']) && $post['group'] != 'false' &&  $post['group'] != ''){
-                  $group = $post['group'];
-              }else{
-                  $group =fasle;
-              }
-            
+            if (isset($post['group']) && $post['group'] != 'false' && $post['group'] != '') {
+                $group = $post['group'];
+            } else {
+                $group = fasle;
+            }
+
             if ($group) {
-                  $gid= [];
+                $gid = [];
                 foreach ($group as $v) {
                     $gid[] = $v['id'];
                 }
 
-                $gdata =User::table('message')->where('to','in',$gid)->where(['type'=>'group','app_key'=>$app_key])->where('timestamp','>',$logtime)->order('mid desc')->limit(100)->select();
+                $gdata = User::table('message')->where('to', 'in', $gid)->where(['type' => 'group', 'app_key' => $app_key])->where('timestamp', '>', $logtime)->order('mid desc')->limit(100)->select();
 
-                if($gdata){
-                     $result = array_reverse($gdata);
-                     foreach ($result as $value) {
+                if ($gdata) {
+                    $result = array_reverse($gdata);
+                    foreach ($result as $value) {
                         $chatdata[] = $value['data'];
-                     }
-            
+                    }
+
                 }
-               
+
             }
 
-             $arr['code'] = 0;
-             $arr['data'] =$chatdata;
-             return json_encode($arr);
+            $arr['code'] = 0;
+            $arr['data'] = $chatdata;
+            return json_encode($arr);
 
         } else {
             header("Status: 401 Not authenticated");
