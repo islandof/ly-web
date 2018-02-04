@@ -21,10 +21,9 @@ class Index extends Controller
 
 
         $app_key = $post['appkey'];
-//        $app = User::table("app")->where("app_key", $app_key)->find();
-        $app = "b054014693241bcd9c20";
+        $app = User::table("app")->where("app_key", $app_key)->find();
 
-        if ($app_key == $app) {
+        if ($app) {
             $gagword = User::table("gagwords")->where("app_id", $app['id'])->select();
 
             if ($gagword) {
