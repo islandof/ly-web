@@ -62,7 +62,7 @@ class Set extends Controller
         $img = str_replace('', '+', $img);
         $data_img = base64_decode($img);
 
-        $imgname = time().rand(0,1000);
+        $imgname = time() . rand(0, 1000);
 
         $url = ROOT . '/assets/upload/images/' . $imgname . '.jpg';
         $res = file_put_contents($url, $data_img);
@@ -225,6 +225,17 @@ class Set extends Controller
             return '删除失败！';
         }
 
+    }
+
+    public function deletehistoryMessage()
+    {
+
+        $data = User::table('message')->where('timestamp', "<", strtotime("-2 day"))->delete();
+        if ($data) {
+            return '删除成功！';
+        } else {
+            return '删除失败！';
+        }
     }
 
 }
